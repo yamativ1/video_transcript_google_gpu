@@ -68,8 +68,23 @@ def extract_video_link():
     # 処理開始時間を記録
     start_time = time.time()
 
+    # ChromeOptionsを設定して、ヘッドレスモードを有効化
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--headless')  # ヘッドレスモード
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+
+    # Chrome for Testingのバイナリのパスを指定
+    chrome_options.binary_location = '/usr/local/bin/chrome-linux64/chrome'
+
+    # ChromeDriverのパスを指定
+    service = Service('/usr/local/bin/chromedriver')
+
+    # WebDriverを作成
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+
     # Selenium Wireのwebdriverを使用し、オプションとseleniumwire_optionsを設定
-    driver = webdriver.Chrome(service=service, options=chrome_options, seleniumwire_options=seleniumwire_options)
+    driver = webdriver.Chrome(service=service, options=chrome_options)
 
     # URLを開く
     driver.get(url)
